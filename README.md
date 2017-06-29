@@ -1,6 +1,8 @@
 # Disaster Management using OSM
 Work done for the Artificial Social Intelligence 2017, Microsoft Research
 
+### Retrieval has been added as a submodule from [here](https://github.com/prannayk/MSRASI17)
+
 ## Main steps:
 * Scraping tweets
 * Deep network based retrieval for ``` need ``` and ``` avail ``` tweets 
