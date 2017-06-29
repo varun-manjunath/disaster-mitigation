@@ -1,0 +1,521 @@
+<!doctype html>
+<html>
+<head>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<style>
+		.btn-group button {
+			border: 1px solid green; /* Green border */
+			color: white; /* White text */
+			cursor: pointer; /* Pointer/hand icon */
+			width: 100%; /* Set a width if needed */
+			height:calc(100%/7);
+			text-align: bottom;
+			display: block; /* Make the buttons appear below each other */
+		}
+
+		.btn-group button:focus{
+			outline: none;
+
+			/*Remove comments for accessibility*/
+
+			/*outline-color:#4F4;
+			outline-style:solid;
+			outline-width:1px;*/
+		}
+
+		.btn-group{
+			height:100%;
+			width: 100%;
+			min-width: 30px;
+		}
+
+		.btn-group img{
+			height: 40%;
+		}
+
+		.btn-group button:not(:last-child) {
+			border-bottom: none; /* Prevent double borders */
+		}
+
+		/* Add a background color on hover */
+		.btn-group button:hover {
+			background-color: #90EE90;
+		}
+
+		.sidenav {
+			height: 100%;
+			width: 0;
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			left: 6%;
+			background-color: #EFE;
+			overflow-x: hidden;
+			transition: 0.5s;
+			padding-top: 60px;
+		}
+
+		.sidenav a {
+			padding: 8px 8px 8px 32px;
+			text-decoration: none;
+			font-size: 1.2em;
+			color: #818181;
+			display: block;
+			transition: 0.5s;
+		}
+
+		.sidenav a:hover:not(.closebtn){
+			color: #f1f1f1;
+			background-color:#444;
+		}
+
+		.sidenav .closebtn {
+			position: absolute;
+			top: 0;
+			right: 25px;
+			font-size: 2em;
+			margin-left: 8%;
+		}
+
+		@media screen and (max-height: 450px) {
+		  .sidenav {padding-top: 15px;}
+		  .sidenav a {font-size: 18px;}
+		}
+
+
+		/*Check box animation*/
+		.checkbox label:after, 
+			.radio label:after {
+				content: '';
+				display: table;
+				clear: both;
+			}
+
+		.checkbox .cr,
+		.radio .cr {
+			position: relative;
+			display: inline-block;
+			border: 1px solid #a9a9a9;
+			border-radius: .25em;
+			width: 1.3em;
+			height: 1.3em;
+			float: left;
+			margin-right: .5em;
+			margin-left: 10%;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		.radio .cr {
+			border-radius: 50%;
+		}
+
+		.checkbox .cr .cr-icon,
+		.radio .cr .cr-icon {
+			position: absolute;
+			font-size: .8em;
+			line-height: 0;
+			top: 50%;
+			left: 20%;
+		}
+
+		.radio .cr .cr-icon {
+			margin-left: 0.04em;
+		}
+
+		.checkbox label input[type="checkbox"],
+		.radio label input[type="radio"] {
+			display: none;
+		}
+
+		.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+		.radio label input[type="radio"] + .cr > .cr-icon {
+			transform: scale(3) rotateZ(-20deg);
+			opacity: 0;
+			transition: all .3s ease-in;
+		}
+
+		.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+		.radio label input[type="radio"]:checked + .cr > .cr-icon {
+			transform: scale(1) rotateZ(0deg);
+			opacity: 1;
+		}
+
+		.checkbox label input[type="checkbox"]:disabled + .cr,
+		.radio label input[type="radio"]:disabled + .cr {
+			opacity: .5;
+		}
+
+		/*custom*/
+		body,html{
+			font-family: "Lato", sans-serif;
+			margin:0px;
+			height:100%;
+			width:100%;
+			overflow: hidden;
+		}
+
+		/*.sidenav left should match the width of #left*/
+		#left{ float: left; width: 6%;height:100%;}
+		#center{ display: inline-block; width: 74%; height:100%;}
+		#right{ float: right; width: 20%; height:100%;}
+
+		#map{
+			height:100%;
+			width: 100%;
+		}
+
+		ul{
+			height: 5%;
+		}
+
+		.list-group{
+			height:100%;
+		}
+
+		button.list-group-item{
+			height:calc(100%/5);
+		}
+
+		button.list-group-item:focus{
+			outline: none;
+		}
+
+		.tab-content{
+			height: 95%;
+		}
+
+		#needs-tab, #offers-tab{
+			height:100%;
+		}
+
+		.checkbox{
+			height: 10%;
+		}
+
+		/*Place Autocomplete*/
+
+		.pac-card {
+		margin: 10px 10px 0 0;
+		border-radius: 2px 0 0 2px;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		outline: none;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+		background-color: #fff;
+		font-family: Roboto;
+	  }
+
+	  #pac-container {
+		padding-bottom: 12px;
+		margin-right: 12px;
+	  }
+
+	  .pac-controls {
+		display: inline-block;
+		padding: 5px 11px;
+	  }
+
+	  .pac-controls label {
+		font-family: Roboto;
+		font-size: 13px;
+		font-weight: 300;
+	  }
+
+	  #pac-input {
+		background-color: #fff;
+		font-family: Roboto;
+		font-size: 15px;
+		font-weight: 300;
+		margin-left: 12px;
+		margin-top: 2%;
+		border-radius: 10px;
+		padding: 0 11px 0 13px;
+		text-overflow: ellipsis;
+		width: 400px;
+	  }
+
+	  #pac-input:focus {
+		border-color: #4d90fe;
+	  }
+
+	</style>
+</head>
+<body>
+	<div id="left">
+		<div class="btn-group">
+			<button id="home-btn"><img src="/static/dashboard/images/icons/home.png" /></button>
+			<button id="resources-btn" onclick="openNav()" ><img src="/static/dashboard/images/icons/resources.png" /></button>
+			<button id="timeline-btn" onclick="alert('Coming soon!')"><img src="/static/dashboard/images/icons/timeline.png" /></button>
+			<button id="notification-btn" onclick="alert('Coming soon!')"><img src="/static/dashboard/images/icons/notification.png" /></button>
+			<button id="need-list-btn" onclick="alert('Coming soon!')"><img src="/static/dashboard/images/icons/need-list.png" /></button>
+			<button id="stats-btn" onclick="alert('Coming soon!')"><img src="/static/dashboard/images/icons/stats.png" /></button>
+			<button id="log-btn" onclick="alert('Coming soon!')"><img src="/static/dashboard/images/icons/logout.png" /></button>
+		</div>
+		
+		<div id="mySidenav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<div class="checkbox">
+				<label style="font-size: 1.2em">
+					<input type="checkbox" value="food" onclick="foodHandle(this);">
+					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+					<label style="padding-left: 4%;display: inline;">Food<label>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label style="font-size: 1.2em">
+					<input type="checkbox" value="water" onclick="waterHandle(this);">
+					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+					<label style="padding-left: 4%;display: inline;">Water<label>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label style="font-size: 1.2em">
+					<input type="checkbox" value="rescue" onclick="rescueHandle(this);">
+					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+					<label style="padding-left: 4%;display: inline;">Rescue<label>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label style="font-size: 1.2em">
+					<input type="checkbox" value="medical" onclick="medicalHandle(this);">
+					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+					<label style="padding-left: 4%;display: inline;">Medical<label>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label style="font-size: 1.2em">
+					<input type="checkbox" value="electricity" onclick="electricityHandle(this);">
+					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+					<label style="padding-left: 4%;display: inline;">Electricity<label>
+				</label>
+			</div>
+			<div class="checkbox">
+				<label style="font-size: 1.2em">
+					<input type="checkbox" value="shelter" onclick="shelterHandle(this);">
+					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+					<label style="padding-left: 4%;display: inline;">Shelter<label>
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div id="center">
+		<input type="text" id="pac-input" class="controls">
+		<div id="map"></div>
+	</div>
+
+	<div id="right">
+		<ul class="nav nav-tabs nav-justified">
+			<li class="active"><a data-toggle="tab" href="#needs-tab">Needs</a></li>
+			<li><a data-toggle="tab" href="#offers-tab">Offers</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="needs-tab" class="tab-pane fade in active">
+				
+				<div class="list-group">
+					<button class="list-group-item">abc</a>
+					<button class="list-group-item">def</a>
+					<button class="list-group-item">ghi</a>
+					<button class="list-group-item">jkl</a>
+					<button class="list-group-item">mno</a>
+				</div>
+			</div>
+
+			<div id="offers-tab" class="tab-pane fade">
+			
+				<div class="list-group">
+					<button class="list-group-item">xyz</a>
+					<button class="list-group-item">def</a>
+					<button class="list-group-item">ghi</a>
+					<button class="list-group-item">jkl</a>
+					<button class="list-group-item">mno</a>
+				</div>
+			</div>
+		</div>	
+	</div>
+
+	<script>
+		function initMap() {
+			uluru = {lat: 12.9717, lng: 77.594};
+			map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 4,
+				center: uluru
+				/*mapTypeId: google.maps.MapTypeId.TERRAIN*/
+			});
+
+			// see https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
+
+			var input = document.getElementById('pac-input');
+			var searchBox = new google.maps.places.SearchBox(input);
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+			// Bias the SearchBox results towards current map's viewport.
+			map.addListener('bounds_changed', function() {
+			  searchBox.setBounds(map.getBounds());
+			});
+
+			markers = [];
+			// Listen for the event fired when the user selects a prediction and retrieve
+			// more details for that place.
+			searchBox.addListener('places_changed', function() {
+				var places = searchBox.getPlaces();
+
+				if (places.length == 0) {
+					return;
+				}
+
+				// Clear out the old markers.
+				markers.forEach(function(marker) {
+					marker.setMap(null);
+				});
+				markers = [];
+
+				// For each place, get the icon, name and location.
+				var bounds = new google.maps.LatLngBounds();
+				places.forEach(function(place) {
+				if (!place.geometry) {
+					console.log("Returned place contains no geometry");
+					return;
+				}
+				/*var icon = {
+					url: place.icon,
+					size: new google.maps.Size(71, 71),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(17, 34),
+					scaledSize: new google.maps.Size(25, 25)
+				};*/
+
+				var jumping_marker=new google.maps.Marker({
+					map: map,
+					title: place.name,
+					position: place.geometry.location
+				})
+
+				// Create a marker for each place.
+				markers.push(jumping_marker);
+				jumping_marker.setAnimation(google.maps.Animation.BOUNCE);
+				setTimeout(function stopBounce() {
+					jumping_marker.setAnimation(null);
+				},2200);		
+
+				var contentString='<a href="#" onclick="new function(){markers.forEach(function(marker){marker.setMap(null);});}"> Clear markers </a>';
+
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+				});
+
+				jumping_marker.addListener('click', function() {
+					infowindow.open(map, jumping_marker);
+				});
+
+				if (place.geometry.viewport) {
+					// Only geocodes have viewport.
+					bounds.union(place.geometry.viewport);
+				} else {
+					bounds.extend(place.geometry.location);
+				}
+				});
+				map.fitBounds(bounds);
+			});
+		}
+
+		function openNav() {
+			document.getElementById("mySidenav").style.width = "15%";
+		}
+
+		function closeNav() {
+			document.getElementById("mySidenav").style.width = "0";
+		}
+
+		$(document).ready(function(){
+			$('.list-group-item').click(function(){
+				$('.list-group-item').removeClass('active');
+				$(this).addClass('active');
+			});
+		});
+
+		/*$(document).ready(function(){
+			$('.btn-group button').click(function(){
+				$('.btn-group button').css("background-color","buttonface");
+				$(this).css("background-color","lightgreen");
+			});
+		});*/
+
+		rescueMarkers=[];
+		rescueRequests=[{lat: -25.363, lng: 131.044},{lat: -20.303, lng: 156.044}];
+
+		function rescueHandle(checkBox){
+			if(checkBox.checked)
+			{
+				for (var i = 0; i < rescueRequests.length; i++) {
+					rescueMarkers.push(new google.maps.Marker({
+						position: rescueRequests[i],
+						map: map,
+						icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F00'
+					}) );
+				}
+			}
+			else
+			{
+				for (var i = 0; i < rescueMarkers.length; i++) {
+					rescueMarkers[i].setMap(null);
+				}
+			}
+		}
+
+		waterMarkers=[];
+		waterRequests=[{lat: 12.971, lng: 77.594},{lat: 12.839, lng: 76.988}, {lat: 12.456, lng: 77.236}];
+
+		function waterHandle(checkBox){
+			if(checkBox.checked)
+			{
+				for (var i = 0; i < waterRequests.length; i++) {
+					waterMarkers.push(new google.maps.Marker({
+						position: waterRequests[i],
+						map: map,
+						icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|0FF'
+					}));
+				}
+			}
+			else
+			{
+				for (var i = 0; i < waterMarkers.length; i++) {
+					waterMarkers[i].setMap(null);
+				}
+			}
+		}
+
+		foodMarkers=[];
+		foodRequests=[{lat: -15.363, lng: 122.044},{lat: -25.303, lng: 120.044}];
+
+		function foodHandle(checkBox){
+			if(checkBox.checked)
+			{
+				for (var i = 0; i < foodRequests.length; i++) {
+					foodMarkers.push(new google.maps.Marker({
+						position: foodRequests[i],
+						map: map,
+						icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|0F0'
+					}));
+				}
+			}
+			else
+			{
+				for (var i = 0; i < foodMarkers.length; i++) {
+					foodMarkers[i].setMap(null);
+				}
+			}
+		}
+
+	</script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRUxL-khRBB6vSU_WFutDtzDDY53JvLvI&callback=initMap&libraries=places">
+	</script>
+</body>
+</html>
